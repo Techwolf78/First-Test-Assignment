@@ -1,31 +1,84 @@
-// Home.js
 import React, { useState } from "react";
 import "./Home.css";
 
 const Home = () => {
-  const [showPages, setShowPages] = useState(false);
-  const pages = ["Page 1", "Page 2", "Page 3", "Page 4"];
+  const [checkboxes, setCheckboxes] = useState(Array(5).fill(false));
+  const [permanentChecks, setPermanentChecks] = useState(Array(5).fill(false));
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const handleAllPagesClick = () => {
-    setShowPages(!showPages);
+  const handleDoubleClick = (index) => {
+    const newPermanentChecks = [...permanentChecks];
+    newPermanentChecks[index] = !newPermanentChecks[index];
+    setPermanentChecks(newPermanentChecks);
+    if (!newPermanentChecks[index]) {
+      const newCheckboxes = [...checkboxes];
+      newCheckboxes[index] = false;
+      setCheckboxes(newCheckboxes);
+    }
+  };
+
+  const handleClick = (index) => {
+    if (!permanentChecks[index]) {
+      const newCheckboxes = [...checkboxes];
+      newCheckboxes[index] = !newCheckboxes[index];
+      setCheckboxes(newCheckboxes);
+    } else {
+      const newCheckboxes = [...checkboxes];
+      newCheckboxes[index] = !newCheckboxes[index];
+      setCheckboxes(newCheckboxes);
+      if (!newCheckboxes[index]) {
+        const newPermanentChecks = [...permanentChecks];
+        newPermanentChecks[index] = false;
+        setPermanentChecks(newPermanentChecks);
+      }
+    }
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleDoneClick = () => {
+    setDropdownOpen(false);
   };
 
   return (
-    <div className="home-container">
-      <div className="checkbox-container">
-        <div className="checkbox" onClick={handleAllPagesClick}>
-          <input type="checkbox" id="all-pages" />
-          <label htmlFor="all-pages">All pages</label>
-        </div>
-        {showPages &&
-          pages.map((page, index) => (
-            <div className="checkbox" key={index}>
-              <input type="checkbox" id={page} />
-              <label htmlFor={page}>{page}</label>
+    <div className="checkbox-container">
+      <div className="button-with-checkbox" onClick={toggleDropdown}>
+        <span className="button-text">All Pages</span>
+        <div
+          className={`checkbox ${checkboxes[0] ? "checked" : ""} ${
+            permanentChecks[0] ? "permanent" : ""
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClick(0);
+          }}
+          onDoubleClick={(e) => {
+            e.stopPropagation();
+            handleDoubleClick(0);
+          }}
+        ></div>
+      </div>
+      {dropdownOpen && (
+        <div className="dropdown">
+          {checkboxes.slice(1).map((isChecked, index) => (
+            <div key={index} className="button-with-checkbox">
+              <span className="button-text">Page {index + 1}</span>
+              <div
+                className={`checkbox ${isChecked ? "checked" : ""} ${
+                  permanentChecks[index + 1] ? "permanent" : ""
+                }`}
+                onClick={() => handleClick(index + 1)}
+                onDoubleClick={() => handleDoubleClick(index + 1)}
+              ></div>
             </div>
           ))}
-      </div>
-      <button className="done-button">Done</button>
+          <div className="done-button" onClick={handleDoneClick}>
+            Done
+          </div>
+        </div>
+      )}
     </div>
   );
 };
