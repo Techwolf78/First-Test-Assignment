@@ -10,7 +10,7 @@ with project requirements. Our goal is evaluating attentiveness and accuracy thr
 ### ✨ Features
 
 - 🔹 **Individual Page Navigation**: Each button on the page leads to a distinct and separate individual page dropdown menu.
-- 🔹 **Checkbox Selection**: Users can select checkboxes corresponding to each page for tailored interactions.
+- 🔹 **Checkbox Selection**: Users can select checkboxes corresponding to each page for tailored interactions. To make a permanent selection, users can double-click the checkbox.
 - 🔹 **Collapsible Dropdown**: A "Done" button is provided to collapse the dropdown menu for a cleaner interface.
 
 ### 🛠️ Tech Stack
